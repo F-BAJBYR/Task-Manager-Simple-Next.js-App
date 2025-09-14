@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --background-gradient: linear-gradient(135deg, #f8fafc 0%, #e9f0fb 100%);
+  --foreground: #22223b;
+  --main-color: #3a86ff;
+  --main-color-dark: #26547c;
+  --font-sans: 'Cairo', Arial, Helvetica, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #181820;
+    --background-gradient: linear-gradient(135deg, #181820 0%, #23233a 100%);
+    --foreground: #f8fafc;
+    --main-color: #ffbe0b;
+    --main-color-dark: #3a86ff;
+  }
+}
+
+body {
+  background: var(--background-gradient);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  margin: 0;
+  transition: background 0.3s;
+}
+
+/* زر رئيسي */
+.btn-main {
+  background: var(--main-color);
+  color: #fff;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px #3a86ff22;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+}
+.btn-main:hover {
+  background: var(--main-color-dark);
+  color: var(--foreground); /* لون الخط داكن عند الـ hover */
+  box-shadow: 0 4px 16px #3a86ff33;
+}
+
+/* بطاقات الإحصائيات */
+.card-stat {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px #3a86ff11;
+  border: 1px solid #e3e8ee;
+  padding: 1.5rem 1rem;
+  transition: box-shadow 0.2s;
+}
+.card-stat:hover {
+  box-shadow: 0 4px 24px #3a86ff22;
+}
+
+/* حقول الإدخال */
+input, select {
+  font-family: var(--font-sans);
+  color: #22223b; /* لون الخط غامق وواضح */
+  background: #fff;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+input::placeholder {
+  color: #888; /* لون رمادي للـ placeholder */
+  opacity: 1;
+}
+
+/* أزرار التصفية */
+.btn-filter {
+  color: #22223b; /* لون الخط غامق */
+  background: #f3f4f6;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  transition: background 0.2s, color 0.2s;
+  font-size: 1rem;
+  border: none;
+}
+.btn-filter.active,
+.btn-filter:hover {
+  background: var(--main-color);
+  color: #fff;
+}
+input:focus, select:focus {
+  border-color: var(--main-color);
+  box-shadow: 0 0 0 2px #3a86ff33;
+}
+
+/* خطوط وأيقونات */
+h1, h2, h3, h4 {
+  font-family: var(--font-sans);
+  font-weight: bold;
+}
+
+/* دعم RTL */
+body, html {
+  direction: rtl;
+}
+
+/* إخفاء أرقام الإدخال في كروم */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
