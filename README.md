@@ -1,36 +1,141 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+ملخص الحل
 
-## Getting Started
+قمتُ ببناء تطبيق إدارة مهام بسيط باستخدام:
 
-First, run the development server:
+Next.js (App Router)
 
-```bash
+TypeScript
+
+Tailwind CSS
+
+التطبيق يسمح للمستخدم بـ:
+
+إضافة مهمة بعنوان.
+
+تعليم المهمة كمكتملة/غير مكتملة.
+
+حذف أو تعديل المهام.
+
+فلترة المهام (جميعها، المكتملة، غير المكتملة).
+
+التخزين يتم في الذاكرة (In-memory Array) داخل app/api/tasks/route.ts. هذا مناسب جدًا لمهمة اختبارية قصيرة المدى، حيث لا يتطلب إعداد قاعدة بيانات. (لكن يمكن استبداله بسهولة بقاعدة بيانات مستقبلًا).
+
+هيكل الكود
+project-root/
+│
+├── app/
+│   ├── layout.tsx        # التخطيط العام للتطبيق + استدعاء CSS
+│   ├── page.tsx          # الصفحة الرئيسية التي تعرض TaskApp
+│   └── api/
+│       └── tasks/
+│           └── route.ts  # API Routes: GET, POST, PATCH, DELETE
+├── globals.css       # أنماط Tailwind العامة
+├── components/
+│   └── TaskApp.tsx       # مكوّن رئيسي (Client Component) فيه الواجهة الكاملة
+│    globals.css       # أنماط Tailwind العامة
+│
+├── tailwind.config.ts    # إعداد Tailwind
+├── tsconfig.json         # إعداد TypeScript
+└── package.json
+
+لماذا هذا التنظيم؟
+
+فصل الواجهة عن المنطق: المكوّنات (components) خاصة بالـ UI، بينما الـ API Routes مسؤولة عن البيانات والتخزين. هذا يسهل استبدال الـ storage بقاعدة بيانات حقيقية مستقبلًا (مثل PostgreSQL أو MongoDB) دون تعديل الواجهة.
+
+Next.js App Router: الاستفادة من تنظيم المجلدات الحديثة في Next.js حيث يتم التعامل مع app/api/... كـ API جاهزة.
+
+TypeScript: يحسّن قابلية الصيانة، يقلّل الأخطاء، ويجعل التعاون مع فريق أكثر وضوحًا.
+
+Tailwind CSS: لتصميم سريع ومرن، يعطي واجهة جميلة بدون كتابة CSS معقد.
+
+كيف يعمل التخزين في الذاكرة
+
+تم تعريف مصفوفة ثابتة TASKS داخل app/api/tasks/route.ts.
+
+كل استدعاء API يتعامل مباشرة مع هذه المصفوفة:
+
+GET → إرجاع جميع المهام.
+
+POST → إضافة مهمة جديدة.
+
+PATCH → تحديث حالة أو عنوان مهمة.
+
+DELETE → حذف مهمة.
+
+ملاحظة: هذا التخزين مؤقت. عند إعادة تشغيل الخادم، تُفقد جميع المهام. وهو مقبول جدًا لمهمة اختبارية.
+
+نقاط تقنية مهمة
+
+واجهة العميل (TaskApp) تستخدم fetch للتخاطب مع /api/tasks.
+
+كل العمليات تتم عبر JSON.
+
+أضفت ميزات إضافية (Bonus Features):
+
+الحذف Delete
+
+الفلترة Filter
+
+التعديل Edit
+
+تقسيم العمل لو كان فريقًا
+
+(مع العلم أنني أنجزت المشروع بمفردي ، لكن هنا توضيح لكيفية تقسيم المهام لو كان فريق مكوّن من 2–3 مطورين).
+
+فريق مكون من 3 مطورين:
+
+المسؤول 1 — واجهة المستخدم (Frontend Lead)
+
+تطوير مكوّن TaskApp.tsx.
+
+تصميم تجربة المستخدم: إدخال المهام، عرض القائمة، أزرار الحالة والحذف.
+
+الاهتمام بالـ UX (مثال: رسائل خطأ/تحميل).
+
+المسؤول 2 — API وعمليات البيانات (Backend)
+
+بناء app/api/tasks/route.ts.
+
+تعريف الـ Endpoints (GET, POST, PATCH, DELETE).
+
+اختبار الـ API باستخدام Postman أو curl.
+
+المسؤول 3 — دمج وجودة (Integration & QA)
+
+إعداد Tailwind و ESLint.
+
+كتابة README-SOLUTION.md.
+
+التأكد من عمل المشروع عبر npm run dev.
+
+مسؤول عن Git، CI/CD لو احتجنا.
+
+فريق مكون من شخصين:
+
+شخص A: واجهة المستخدم + تجربة المستخدم.
+
+شخص B: API + README + اختبارات.
+
+كيف تشغّل المشروع محليًا
+
+تثبيت المتطلبات:
+
+npm install
+
+
+تشغيل الخادم:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+فتح التطبيق:
+على الرابط http://localhost:3000
+.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+استنتاج
 
-## Learn More
+الحل مبني بطريقة نظيفة وقابلة للتوسّع.
 
-To learn more about Next.js, take a look at the following resources:
+يمكن الانتقال لاحقًا إلى قاعدة بيانات حقيقية بدون أي تغييرات كبيرة في واجهة المستخدم.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+المشروع يوازن بين البساطة (لتجربة سريعة) والمرونة (قابل للتوسيع مستقبلًا).
